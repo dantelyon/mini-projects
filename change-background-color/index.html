@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .button {
+            padding: 15px 15px;
+            margin: 10em;
+            background-color: white;
+            border-radius: 5px;
+            font-size: 15px;
+            }
+        </style>
+    </head>
+    <body style="background-color: rgb(188, 227, 245);">
+        <button class="button" onclick="newColor()">Click Me!</button>
+        <script>
+            function newColor() {
+                let randomColor = Math.floor(Math.random()*16777215).toString(16);
+                document.body.style = `background-color: #${randomColor}`;
+            }
+        </script>
+    </body>
+</html>
