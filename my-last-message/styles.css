@@ -1,0 +1,14 @@
+#container {
+    margin: 50px;
+    background-color: rgb(216, 216, 246);
+    max-width: 300px;
+    padding: 20px;
+
+}
+#lastMessage {
+    padding-top: 20px;
+}
+#showMessage {
+    font-size: 24px;
+    word-break: break-all;
+}

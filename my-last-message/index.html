@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="styles.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="container">
+            <input id="value">
+            <input type="button" value="Submit" onClick="processMessage()">
+            <div id="lastMessage">Last message: <span id="showMessage"><i>no message stored</i></span></div> 
+        </div>
+        <script>
+            window.onload = function() {
+                document.getElementById("value").value = null
+                document.getElementById("showMessage").innerHTML = localStorage.lastMessage
+            }
+            function processMessage(){
+                let inputValue = document.getElementById("value").value
+                document.getElementById("showMessage").innerHTML = inputValue;
+                localStorage.setItem('lastMessage', inputValue);
+                document.getElementById("value").value = null
+            }
+        </script>
+    </body>
+</html>
+
+
+
+
+
