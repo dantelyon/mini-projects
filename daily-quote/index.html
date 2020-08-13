@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Quote of the Day</title>
+        <style>
+            body {
+                background-color: rgb(185, 233, 251);
+            }
+            .container {
+                margin-top: 10vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container-item {
+                font-size: 1.75rem;
+                font-family: serif;
+                font-weight: 500;
+                line-height: 1.3em;
+                max-width: 50%;
+                border-radius: 5px;
+                background-color: rgb(222, 242, 250);
+                padding: 20px;
+            }
+            h3 {
+                margin-left: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <span style="z-index:50;font-size:0.9em; font-weight: bold;">
+            <img src="https://theysaidso.com/branding/theysaidso.png" height="20" width="20" alt="theysaidso.com"/>
+            <a href="https://theysaidso.com" title="Powered by quotes from theysaidso.com" style="margin-left: 4px; vertical-align: middle;">
+              They Said So®
+            </a>
+        </span>
+        <div class="container">
+            <div class="container-item">
+                <h3>Quote of the Day</h3>
+                <blockquote>
+                    <p id="quote">Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.</p>
+                    <footer id="author">— Aldous Huxley</footer>
+                </blockquote>
+            </div>
+        </div>
+        <script>
+            fetch('https://quotes.rest/qod')
+                .then(response => response.json())
+                .then(response => {
+                    document.getElementById("quote").textContent = response.contents.quotes[0].quote;
+                    document.getElementById("author").textContent = "— " + response.contents.quotes[0].author;
+                })
+        </script>
+    </body>
+</html>
