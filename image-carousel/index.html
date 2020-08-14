@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="styles.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="box">
+            <button id="previous">Previous</button>
+            <img id="image">
+            <button id="next">Next</button>
+        </div>
+        
+        <script>
+            
+            let theImages = [];
+
+            let currentImage = 0;
+
+            let carousel = window.setInterval(nextImage, 4000);
+            
+            function reset_carousel() {
+                clearInterval(carousel);
+                carousel = window.setInterval(nextImage, 4000);
+            }
+
+            function nextImage() {
+                currentImage+1 === theImages.length ? currentImage = 0 : currentImage++;
+                document.getElementById("image").src = theImages[currentImage];
+            }
+        
+            fetch("https://www.reddit.com/r/aww/top/.json?t=day")
+                .then(res => res.json())
+                .then(images => {
+                    images.data.children.forEach(image => {
+                        if (image.data.url.endsWith("jpg")) theImages.push(image.data.url);
+                    });
+                    document.getElementById("image").src = theImages[currentImage];
+                })
+
+            document.getElementById("next").addEventListener("click", () => {
+                nextImage();
+                reset_carousel();
+            })
+
+            document.getElementById("previous").addEventListener("click", () => {
+                currentImage === 0 ? currentImage = theImages.length-1 : currentImage--;
+                document.getElementById("image").src = theImages[currentImage];
+                reset_carousel();
+            })
+
+        </script>
+    </body>
+</html>
