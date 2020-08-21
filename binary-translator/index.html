@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Translator</title>
+        <style type="text/css">
+            div {
+                display: inline-block;
+            }
+            label {
+                display: block;
+                margin: 2px;
+            }
+        </style>
+    </head>
+    <body id="boilerplate">
+
+        <form name="converter">
+            <div class="halfdiv">
+                <label for="binary">Binary</label>
+                <textarea oninput="binary_convert()" name="binary" id="binary" cols="14" rows="1"></textarea>
+            </div>
+            <div class="halfdiv">
+                <label for="hex">Hex</label>
+                <textarea oninput="hex_convert()" name="hex" id="hex" cols="14" rows="1"></textarea>
+            </div>
+            <div class="halfdiv">
+                <label for="decimal">Decimal</label>
+                <textarea oninput="decimal_convert()" name="decimal" id="decimal" cols="14" rows="1"></textarea>
+            </div>
+            <div class="halfdiv">
+                <label for="character">Character*</label>
+                <textarea oninput="character_convert()" name="character" id="character" cols="14" rows="1"></textarea>
+            </div>
+            <div class="halfdiv">
+                <label for="color">Color (in RGB)</label>
+                <textarea oninput="color_convert()" name="color" id="color" cols="14" rows="1"></textarea>
+            </div>
+        </form>
+		<p>*in the 0-255 range, sixtyfive of the characters are control characters with no visual representation, and as such will display as their corresponding code.</p>
+
+
+<script type="text/javascript">
+	function getValue(type){
+		return document.getElementById(type)
+	}
+
+    function binary_convert(){
+    	let binary = getValue("binary").value
+    	getValue("hex").value = parseInt(binary, 2).toString(16).toUpperCase();
+        getValue("decimal").value = parseInt(binary, 2)
+        let decimal = getValue("decimal").value
+        getValue("character").value = String.fromCharCode(decimal)
+        getValue("color").value = "0,0,"+parseInt(binary, 2)
+        document.getElementById("color").setAttribute("style", `color: rgb(${document.getElementById("color").value})`)
+    }
+
+    function hex_convert(){
+    	let hex = getValue("hex").value
+    	getValue("binary").value = (parseInt(hex, 16).toString(2)).padStart(8, '0')
+    	getValue("decimal").value = parseInt(hex, 16);
+    	getValue("character").value = String.fromCharCode(parseInt(hex, 16))
+    	getValue("color").value = "0,0,"+parseInt(hex, 16)
+    	document.getElementById("color").setAttribute("style", `color: rgb(${document.getElementById("color").value})`)
+	}
+
+    function decimal_convert(){
+    	let decimal = getValue("decimal").value
+    	getValue("binary").value = 5;
+    	getValue("hex").value = parseInt(decimal).toString(16).toUpperCase();
+    	getValue("character").value = String.fromCharCode(decimal)
+    	getValue("color").value = "0,0,"+decimal
+    	document.getElementById("color").setAttribute("style", `color: rgb(${document.getElementById("color").value})`)
+    }
+
+    function character_convert(){
+    	let character = getValue("character").value
+    	getValue("binary").value = +character.charCodeAt(0).toString(2);
+    	getValue("hex").value = (+character.charCodeAt(0)).toString(16).toUpperCase();
+    	getValue("decimal").value = +character.charCodeAt(0)
+    	getValue("color").value = "0,0,"+parseInt(+character.charCodeAt(0))
+    	document.getElementById("color").setAttribute("style", `color: rgb(${document.getElementById("color").value})`)
+    }
+
+    function color_convert(){
+    	let color = getValue("color").value.substring(4);
+    	getValue("binary").value = (+color).toString(2);
+    	getValue("hex").value = parseInt(color).toString(16).toUpperCase();
+    	getValue("decimal").value = color
+    	getValue("character").value = String.fromCharCode(color)
+    	document.getElementById("color").setAttribute("style", `color: rgb(${document.getElementById("color").value})`)
+    }
+
+const RGBToHex = (r, g, b) => ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
+
+
+
+</script>
+            
+    </body>
+</html>
