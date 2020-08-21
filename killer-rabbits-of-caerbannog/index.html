@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Killer Rabbits of Caerbannog</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <meta name="description" content="">
+        <script type="text/javascript"></script>
+        <style type="text/css"></style>
+    </head>
+
+    <body>
+    		<img src="arthur.png" id="portrait" onclick="play()">
+    	<div id="healthDiv">
+    		<div id="healthBar"></div>
+    	</div>
+    	<div id="grounds"></div>
+    	
+
+        <script type="text/javascript">
+
+			 const startTime = new Date();
+			 function timeElapsed() {
+			 	endTime = new Date();
+			 	let timeDiff = endTime - startTime;
+			 	timeDiff /= 1000
+			 	let seconds = Math.round(timeDiff);
+			 	return seconds
+			 }
+
+			function tt(timeElapsed){
+				if (timeElapsed < 10){return 5000
+				}else if (timeElapsed < 20){return 2500
+				}else{return 1000}
+			}
+
+        	document.getElementById("grounds").addEventListener('click', (event) => {
+        		if (event.target.className == "rabbits") {event.target.remove(); event.preventDefault();}
+        	})
+
+        	const oneFifth = parseFloat(document.getElementById("healthBar").clientWidth / 5)
+			function takeDamage(){
+				document.getElementById("healthBar").style.width =
+					(parseFloat(document.getElementById("healthBar").style.width) || document.getElementById("healthBar").clientWidth) 
+					- oneFifth + "px";
+			}
+
+			function youDied(){
+				let overlay = document.createElement("div")
+				overlay.id = "overlay"
+				let youdied = document.createElement("p")
+				youdied.textContent = "YOU DIED" + ` after ${timeElapsed()} seconds.`
+				overlay.appendChild(youdied)
+				document.body.appendChild(overlay)
+			}
+
+			(function increaseRabbitSize(){
+				let increaseSize = setInterval(function () {
+					let rabbits = document.getElementsByClassName("rabbits")
+					if (document.getElementById("healthBar").clientWidth < oneFifth-5) clearInterval(increaseSize);
+					for (let rabbit of rabbits){
+						if (rabbit.style.width == "100px") {takeDamage(); rabbit.remove()}
+						else{rabbit.style.width = rabbit.clientWidth + 5 + "px";
+							rabbit.style.height = rabbit.clientHeight + 5 + "px";}
+						}
+					}, 1000);
+			})();
+
+			(function spawnRabbit(){
+				if (document.getElementById("healthBar").clientWidth < oneFifth-5) youDied()
+				else {
+					setTimeout(spawnRabbit, Math.random() * tt(timeElapsed()))
+					let image = document.createElement("img")
+					image.src = "rabbit.png"
+					image.className = "rabbits"
+					image.style.height = "50px"
+					image.style.width = "50px"
+					image.style.left = ((Math.random() * document.getElementById("grounds").clientWidth) | 0) + `px`;
+					image.style.top = ((Math.random() * (document.getElementById("grounds").clientHeight)) | 0) + `px`;
+					document.getElementById("grounds").appendChild(image)
+				}
+			})(); 
+
+
+        </script>
+    </body>
+    
+</html>

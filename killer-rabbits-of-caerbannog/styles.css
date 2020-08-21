@@ -1,0 +1,67 @@
+
+
+
+body {
+	background-image: url("CaerbannogCave.png");
+	background-size: cover;
+	background-position: center center;
+}
+
+.rabbits {
+	position: absolute;
+	z-index: 10;
+}
+
+img {
+	border-radius: 50%;
+}
+
+#healthDiv {
+	top: 0;
+	height: 60px;
+	position: relative;
+    margin: auto;
+  	width: 50%;
+  	padding: 30px;
+}
+
+#healthBar {
+	height: 30px;
+	width: 90%;
+	top: 20px;
+	background-color: #d90000;
+}
+
+#grounds {
+	height: 700px;
+	margin: auto;
+  	width: 85%;
+}
+
+#portrait {
+	height: 140px;
+	width: 140px;
+	position: fixed;
+    left: 0;
+    top: 0;
+}
+
+#overlay {
+    height: 100%;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    position: fixed;
+    z-index: 100;
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0.582399683506215) 100%);
+    /** background-color: rgb(68, 68, 68);  and  opacity: .5;**/
+}
+
+#overlay p {
+	color: red;
+	font-size: 200%;
+	top: 40%;
+	left: 40%;
+	position: absolute;
+}
