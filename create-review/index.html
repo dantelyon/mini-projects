@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .container {
+                width: 400px;
+                background-color: blanchedalmond;
+            }
+            #small-reviews div {
+                background-color: black;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="newReview">NEW REVIEW</button>
+        <div class="container">
+            <div id="name">Gabriel Singh</div>
+            <img id="picture" src="https://randomuser.me/api/portraits/men/0.jpg">
+            <div id="review">Doner kevin frankfurter reprehenderit. In beef ribs elit officia cupidatat non.</div>
+        </div>
+        <div>
+
+            <div id="small-reviews">
+                <div data-name="Gabriel Singh" data-rating="5" data-picture="https://randomuser.me/api/portraits/men/0.jpg" data-text="Doner kevin frankfurter reprehenderit. In beef ribs elit officia cupidatat non">Gabriel Singh. FIVE STARS, , .</div>
+            </div>
+            
+            
+        </div>
+        
+
+        <script>
+            function randomUser() {
+                fetch('https://randomuser.me/api/')
+                    .then(res => res.json())
+                    .then(res => {
+                        document.getElementById("name").textContent = res.results[0].name.first + " " + res.results[0].name.last;
+                        document.getElementById("picture").src = res.results[0].picture.large
+                    })
+            }
+
+            function randomText() {
+                let coinflip = performance.now() % 2 == 0 ? "1" : "2"
+                fetch(`https://baconipsum.com/api/?type=meat-and-filler&sentences=${coinflip}`)
+                    .then(res => res.json())
+                    .then(res => {
+                        document.getElementById("review").textContent = res[0]
+                    })
+            }
+
+            document.getElementById("newReview").addEventListener("click", function(event) {
+                randomUser()
+                randomText()
+            })
+
+            document.getElementById("small-reviews").addEventListener("click", function(event){
+                document.getElementById("name").textContent = event.target.dataset.name;
+                document.getElementById("picture").src = event.target.dataset.picture;
+                document.getElementById("review").textContent = event.target.dataset.text;
+            })
+
+            
+        </script>
+    </body>
+</html>
