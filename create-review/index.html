@@ -4,65 +4,74 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            .container {
-                width: 400px;
-                background-color: blanchedalmond;
-            }
-            #small-reviews div {
-                background-color: black;
-                color: white;
-            }
-        </style>
+        <link href="styles.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
-        <button id="newReview">NEW REVIEW</button>
-        <div class="container">
-            <div id="name">Gabriel Singh</div>
-            <img id="picture" src="https://randomuser.me/api/portraits/men/0.jpg">
-            <div id="review">Doner kevin frankfurter reprehenderit. In beef ribs elit officia cupidatat non.</div>
-        </div>
-        <div>
-
-            <div id="small-reviews">
-                <div data-name="Gabriel Singh" data-rating="5" data-picture="https://randomuser.me/api/portraits/men/0.jpg" data-text="Doner kevin frankfurter reprehenderit. In beef ribs elit officia cupidatat non">Gabriel Singh. FIVE STARS, , .</div>
-            </div>
-            
-            
+        
+        <div id="cards-container">
+            <button id="new-review" type="button">Create Review</button>
         </div>
         
-
         <script>
-            function randomUser() {
-                fetch('https://randomuser.me/api/')
-                    .then(res => res.json())
-                    .then(res => {
-                        document.getElementById("name").textContent = res.results[0].name.first + " " + res.results[0].name.last;
-                        document.getElementById("picture").src = res.results[0].picture.large
-                    })
-            }
+document.addEventListener("DOMContentLoaded", createReview);
+document.getElementById("new-review").addEventListener("click", createReview);
 
-            function randomText() {
-                let coinflip = performance.now() % 2 == 0 ? "1" : "2"
-                fetch(`https://baconipsum.com/api/?type=meat-and-filler&sentences=${coinflip}`)
-                    .then(res => res.json())
-                    .then(res => {
-                        document.getElementById("review").textContent = res[0]
-                    })
-            }
+function getRandomPerson() {
+    return fetch('https://randomuser.me/api/').then(res => res.json()).then(res => res.results[0])
+}
 
-            document.getElementById("newReview").addEventListener("click", function(event) {
-                randomUser()
-                randomText()
-            })
+function getRandomText() {
+    let coinflip = Math.floor(Math.random() * 2) + 1;
+    return fetch(`https://baconipsum.com/api/?type=meat-and-filler&sentences=${coinflip}`).then(res => res.json()).then(res => res[0])
+}
 
-            document.getElementById("small-reviews").addEventListener("click", function(event){
-                document.getElementById("name").textContent = event.target.dataset.name;
-                document.getElementById("picture").src = event.target.dataset.picture;
-                document.getElementById("review").textContent = event.target.dataset.text;
-            })
+function createReview() {
+    document.getElementById("new-review").disabled = true;
+    Promise.all([getRandomPerson(), getRandomText()])
+    .then(createCard)
+    .then(res => document.getElementById("new-review").disabled = false)
+}
 
-            
+function createCard(values) {
+    let personPicture = document.createElement('img')
+    let reviewCard = document.createElement('div')
+    let personData = document.createElement('div')
+    let personName = document.createElement('div')
+    let reviewData = document.createElement('div')
+    let reviewID = document.createElement('div')
+    let reviewRating = document.createElement('div')
+    let reviewText = document.createElement('div')
+    
+    reviewCard.className = "review-card"
+    personData.className = "person-data"
+    personPicture.className = "person-picture"
+    personName.className = "person-name"
+    reviewData.className = "review-data"
+    reviewID.className = "review-number"
+    reviewRating.className = "review-rating"
+    reviewText.className = "review-text"
+    
+    reviewText.textContent = values[1];
+    personName.textContent = values[0].name.first + " " + values[0].name.last;
+    personPicture.src = values[0].picture.large;
+    reviewID.textContent = "Review #" + (document.getElementsByClassName("review-card").length + 1);
+    
+    let rating = Math.floor(Math.random() * (6 - 1) + 1);
+    for (let i = 0; i < 5; i++) {
+        let star = document.createElement('span');
+        let checked = rating > 0 ? " checked" : "";
+        star.className = "fa fa-star" + checked;
+        rating--;
+        reviewRating.appendChild(star);
+    }
+    
+    personData.append(personPicture, personName)
+    reviewData.append(reviewID, reviewRating, reviewText)
+    reviewCard.append(personData, reviewData)
+    document.getElementById("cards-container").appendChild(reviewCard)
+}
+
         </script>
     </body>
 </html>
