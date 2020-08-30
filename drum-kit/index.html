@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            #keys {
+                margin: 5em;
+            }
+            #keys > span {
+                font-size: 4em;
+                margin: 5px;
+                padding: 10px 40px;
+                border: solid black;
+                border-radius: 4px;
+            }
+            #keys > span:active {
+                position: relative;
+                top: 2px;
+                right: 2px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="keys"></div>
+        
+        <script>
+
+        function getColor(){
+            return "hsl(" + 360 * Math.random() + ',' + 
+                (25 + 70 * Math.random()) + '%,' + 
+                (85 + 10 * Math.random()) + '%)'
+        };
+
+        const keys = [
+            {key: "A", sound: "boom"},
+            {key: "S", sound: "clap"},
+            {key: "D", sound: "hihat"},
+            {key: "F", sound: "kick"},
+            {key: "G", sound: "openhat"},
+            {key: "H", sound: "ride"},
+            {key: "J", sound: "snare"},
+            {key: "K", sound: "tink"},
+            {key: "L", sound: "tom"},
+        ]
+
+        const keySpans = keys.map(item => {
+            let keySpan = document.createElement('span');
+            keySpan.dataset.key = item.sound;
+            keySpan.textContent = item.key;
+            keySpan.style.backgroundColor = getColor();
+            window[item.sound] = new Audio(`./sounds/${item.sound}.wav`);
+            window.addEventListener("keydown", event => {
+                if (event.keyCode === item.key.charCodeAt(0)) window[item.sound].play();
+            });
+            return keySpan;
+        })
+
+        const documentKeys = document.getElementById("keys");
+        documentKeys.append(...keySpans);
+        documentKeys.addEventListener("click", event => window[event.target.dataset.key].play()) ;
+
+        </script>
+    </body>
+</html>
