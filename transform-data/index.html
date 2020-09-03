@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        margin: 1em;
+    }
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+  </style>
+</head>
+<body>
+    
+    <h2>Largest cities (by population) of a U.S. state</h2>
+    <input type="text" id="input" placeholder="name of a US state">
+    <input type="submit" value="Submit" id="submit">
+    <table></table>
+    
+<script>
+
+    const input = document.querySelector("#input")
+
+    window.addEventListener('DOMContentLoaded', e => {input.value = ""; input.focus()});
+    
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+    let statesData = {}
+
+    fetch(endpoint)
+        .then(res => res.json())
+        .then(transformData)
+
+    function transformData(data) {
+        data.forEach(item => statesData[item.state] = []);
+        data.forEach(item => statesData[item.state].push({city: item.city, population: parseInt(item.population)}));
+        for (let state in statesData) statesData[state].sort((a, b) => a.population < b.population);
+        for (let state in statesData) statesData[state] = statesData[state].slice(0, 3);
+        statesData = Object.keys(statesData).reduce((acc, key) => {
+            acc[key.toLowerCase()] = statesData[key];
+            return acc;
+        }, {});
+    }
+    
+    document.querySelector("#submit").addEventListener("click", displayData)
+
+    window.addEventListener("keydown", event => {
+        if (event.key === "Enter" && event.target.id === "input") displayData()
+    })
+
+    function displayData() {
+        const inputState = statesData[input.value.toLowerCase()] || 0
+        if (inputState) {
+            let table = document.querySelector("table");
+            table.innerHTML = '<tr><th>City</th><th>Population</th></tr>'
+            inputState.forEach(item => {
+                let tr = document.createElement('tr')
+                let tdcity = document.createElement('td')
+                let tdpop = document.createElement('td')
+                tdcity.textContent = item.city;
+                tdpop.textContent = item.population;
+                tr.appendChild(tdcity);
+                tr.appendChild(tdpop);
+                table.appendChild(tr)
+            });
+            input.value = "";
+            input.focus();
+        } else {alert("please input a valid U.S. state"); input.value = "";}
+    }
+
+</script>
+</body>
+</html>
