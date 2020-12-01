@@ -1,0 +1,74 @@
+
+body {
+	margin-bottom: 10em;
+	font-size: 20px;
+}
+
+.flex {display: flex;}
+.center {justify-content: center;}
+.spaceBetween {justify-content: space-between;}
+.spaceAround {justify-content: space-around;}
+.flex span {padding: 1em;}
+.blue, .flex span:nth-child(1) {background: #c9f0ff;}
+.green, .flex span:nth-child(2) {background: #ecffc9;}
+
+.rotatingBox .content {flex: 1 1 auto;}
+.rotatingBox div {padding: 10px;}
+.rotatingBox {
+	width: 40vh;
+	height: 40vh;
+	position: absolute;
+	z-index: -10;
+	top: 40%;
+	left: 40%;
+    display: flex;
+    flex-direction: column;
+}
+.rotatingBox {animation: rotation 50s infinite linear;}
+@keyframes rotation {
+	from {transform: rotate(359deg);}
+	to {transform: rotate(0deg);}
+}
+
+.fixedFooter div {padding: 1em; }
+.fixedFooter div:nth-child(1) {flex: 1 1 auto;}
+.fixedFooter {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   text-align: center;
+}
+
+.fixedHeader {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+}
+.center span:first-child {border-bottom: 1px solid black; border-left: 1px solid black;}
+.center span:last-child {border-bottom: 1px solid black; border-right: 1px solid black;}
+
+.allBoxes {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap
+}
+.smallBox {
+	height: 20vh;
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    flex: 1;
+    padding: 2%;
+    flex-grow: 1;
+    flex-basis: 16%;
+}
+.smallBox div {
+    padding: 10px;
+    text-align: center;
+    flex: 1 1 auto;
+}
+
+
+

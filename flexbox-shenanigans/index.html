@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Flexbox shenanigans</title>
+	<link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+	<header class="fixedHeader">
+		<div class="flex center"> <span>FLEX</span> <span>BOX</span> </div>
+	</header>
+
+	<div class="flex spaceAround"> <span>FLEX</span> <span>BOX </span></div>
+	<div class="flex spaceBetween"> <span>FLEX</span> <span>BOX</span> </div>
+
+	<div class="rotatingBox">
+		<div class="content blue">FLEX</div>
+		<div class="green">BOX</div>
+	</div>
+
+	<footer class="flex fixedFooter">
+		<div class="blue">FLEX</div>
+		<div class="green">BOX</div>
+	</footer>
+
+	<div class="allBoxes"></div>
+	
+
+<script type="text/javascript">
+	function createBoxes(n) {
+		const blue = `<div class="blue">FLEX</div>`;
+		const green = `<div class="green">BOX</div>`;
+		const box = `<div class="smallBox">${blue}${green}</div>`;
+		const ALLTHEBOXES = [];
+		for (let i = 0; i < n; i++) ALLTHEBOXES.push(box);
+		return ALLTHEBOXES.join("")
+	}
+	document.querySelector(".allBoxes").innerHTML = createBoxes(18)
+</script>
+</body>
+</html>
