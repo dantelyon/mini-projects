@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		svg:hover {
+			background-color: #fdf0ff;
+		}
+		svg {
+			margin: 2em;
+			animation-name: pulse;
+			animation-duration: 5s;
+			animation-iteration-count: infinite;
+			animation-direction: alternate;
+		}
+		@keyframes pulse {
+			0% {fill: blue;}
+			100% {fill: red;}
+		}
+	</style>
+</head>
+<body>
+
+	<svg width="95px" height="60px" xmlns="http://www.w3.org/2000/svg" transform="rotate(-10 10, 10)">
+		<defs>
+			<filter id="email_svg" x="0" y="0" width="200%" height="200%">
+				<feOffset result="offOut" in="SourceGraphic" dx="20" dy="10"/>
+				<feColorMatrix result="matrixOut" in="offOut" type="matrix" values="1 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.5 0"/>
+				<feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="2"/>
+				<feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+			</filter>
+		</defs>
+		<path id="email_unread" data-name="email unread" filter="url(#email_svg)" stroke="black" stroke-width="1.6" fill-opacity="0.5" stroke-opacity="1"  transform="translate(-768 -145)"  d="M798.377,169.859h.012a2.16,2.16,0,0,0,1.181-.346l.092-.059.063-.039,1.071-.887,25.563-21.094a.3.3,0,0,0-.239-.123H770.492a.291.291,0,0,0-.183.066l26.745,22.045A2.1,2.1,0,0,0,798.377,169.859ZM770.2,150.3v31.268l19.159-15.476Zm37.084,15.9,19.139,15.38V150.4Zm-6.085,5.021a4.559,4.559,0,0,1-5.619.005l-4.388-3.619L770.2,184.558v.053a.3.3,0,0,0,.3.3h55.625a.3.3,0,0,0,.3-.3v-.049l-20.974-16.852Z"/>
+	</svg>
+
+</body>
+</html>
